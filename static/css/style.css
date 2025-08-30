@@ -1,0 +1,259 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fdfcf9;
+  color: #4b2e1e;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  background: url('https://i.pinimg.com/originals/52/d2/c8/52d2c84edfcf25e4119ddab998952ef8.jpg') center/cover no-repeat;
+}
+.hero .overlay {
+  position: absolute;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.6);
+}
+.hero .content { position: relative; z-index: 2; }
+
+.couple-name {
+  font-family: 'Great Vibes', cursive;
+  color: #f5d28c;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+
+.section-title {
+  font-family: 'Great Vibes', cursive;
+  color: #5a3a24;
+  font-size: 2.2rem;
+  border-bottom: 2px solid #d4af37;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.btn-gold {
+  background-color: #d4af37;
+  color: #fff;
+  border-radius: 30px;
+}
+.btn-gold:hover { background-color: #b89028; }
+
+.border-gold { border: 5px solid #d4af37; }
+.ampersand { font-family: 'Great Vibes', cursive; font-size: 5rem; color: #d4af37; }
+
+.gallery-img { cursor: pointer; transition: transform .3s; }
+.gallery-img:hover { transform: scale(1.05); }
+
+/* Musik Button */
+.music-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #d4af37;
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+.music-btn:hover { background: #b89028; }
+
+@media (max-width: 576px) {
+  .couple-name { font-size: 2.2rem; }
+  .ampersand { display: none; }
+}
+
+/* Countdown Section */
+#countdown {
+  background: linear-gradient(135deg, #fbe9d7, #f7e4c3);
+  color: #4e342e;
+}
+
+#countdown .section-title {
+  color: #b76e22;
+  font-weight: 700;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Time Box Style */
+.time-box {
+  background: #fff5e1;
+  border: 2px solid #d4a76a;
+  border-radius: 20px;
+  padding: 20px 25px;
+  min-width: 90px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease-in-out;
+  animation: pop 1s infinite alternate;
+}
+
+.time-box span {
+  font-size: 2rem;
+  font-weight: bold;
+  display: block;
+  color: #b76e22;
+}
+
+.time-box small {
+  font-size: 0.9rem;
+  color: #6b4226;
+}
+
+.time-box:hover {
+  transform: scale(1.1);
+}
+
+.time-box.finished {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #d4a76a, #b76e22);
+  border: none;
+  animation: none;
+}
+
+/* Animasi Pop */
+@keyframes pop {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+/* --- Background Bergerak Adat Jawa --- */
+.cover-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #4b2e1e;
+    z-index: 1000;
+    overflow: hidden; /* Penting untuk animasi */
+    
+    /* Background Default (jika gambar animasi tidak load) */
+    background-color: #fdfcf9; 
+}
+
+.cover-page::before,
+.cover-page::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover; 
+    background-repeat: repeat; 
+    opacity: 0.3; /* Sesuaikan transparansi */
+    z-index: -1;
+}
+
+/* Gambar pertama */
+.cover-page::before {
+    background-image: url('../img/wayang.jpg');
+    background-size: cover; /* Atau contain, lihat penjelasan di bawah */
+    background-position: center; /* Memastikan gambar berada di tengah */
+    animation: slideBackground1 30s linear infinite;
+}
+
+/* Gambar kedua (opsional, untuk efek lapisan) */
+.cover-page::after {
+    background-image: url('../img/batik 1.jpg');
+    background-size: cover; /* Atau contain, lihat penjelasan di bawah */
+    background-position: center; /* Memastikan gambar berada di tengah */
+    animation: slideBackground2 45s linear infinite reverse;
+    opacity: 0.4;
+}
+
+
+/* Definisi Animasi */
+@keyframes slideBackground1 {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; } 
+}
+
+@keyframes slideBackground2 {
+    0% { background-position: 100% 0%; }
+    100% { background-position: 0% 100%; }
+}
+
+/* Pastikan konten tetap di atas background */
+.cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 0; 
+}
+
+.cover-content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+.cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.cover-content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+.cover-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3rem;
+    color: #d4af37;
+}
+.cover-text {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 10px;
+}
+.to-guest {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+.btn-gold-cover {
+    background-color: #d4af37;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+.btn-gold-cover:hover {
+    background-color: #b89028;
+    color: white;
+}
+
+/* Tambahan ornamen untuk undangan utama */
+.section-title {
+    position: relative;
+    font-family: 'Great Vibes', cursive;
+    color: #5a3a24;
+    font-size: 2.2rem;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 2px;
+    background-color: #d4af37;
+    margin: 10px auto 0;
+}
