@@ -1,13 +1,29 @@
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #fdfcf9;
   color: #4b2e1e;
+  background-color: #fdfcf9; 
 }
+
+body.animated-background {
+  background-image: url('../img/background5.jpg'), url('../img/wayang.jpg');
+  background-size: 500px, cover;
+  background-repeat: repeat, repeat;
+  background-position: 0% 0%, center center;
+  background-attachment: fixed, fixed;
+  animation: slideBodyBackground 40s linear infinite;
+}
+
+@keyframes slideBodyBackground {
+    0% { background-position: 0% 0%, center center; }
+    50% { background-position: 100% 100%, center center; }
+    100% { background-position: 0% 0%, center center; }
+}
+
 
 .hero {
   position: relative;
   height: 100vh;
-  background: url('https://i.pinimg.com/originals/52/d2/c8/52d2c84edfcf25e4119ddab998952ef8.jpg') center/cover no-repeat;
+  background: url('../img/Ornamen-wayang.png') center/cover no-repeat;
 }
 .hero .overlay {
   position: absolute;
@@ -30,6 +46,18 @@ body {
   display: inline-block;
   padding-bottom: 5px;
 }
+
+/* Untuk memastikan teks di atas background yang bergerak tetap terbaca */
+section {
+    background-image: url('../img/Ornamen-wayang.png');
+    background-color: rgba(255, 255, 255, 0.9);
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 900px;
+}
+
 
 .btn-gold {
   background-color: #d4af37;
@@ -66,7 +94,6 @@ body {
   .ampersand { display: none; }
 }
 
-/* Countdown Section */
 #countdown {
   background: linear-gradient(135deg, #fbe9d7, #f7e4c3);
   color: #4e342e;
@@ -256,4 +283,148 @@ body {
     height: 2px;
     background-color: #d4af37;
     margin: 10px auto 0;
+}
+
+/* Style untuk tombol RSVP */
+.btn-rsvp {
+    background-color: #f7e4c3;
+    color: #5a3a24;
+    border: 2px solid #d4af37;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-rsvp:hover {
+    background-color: #d4af37;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn-rsvp.active {
+    background-color: #d4af37;
+    color: white;
+    border-color: #b89028;
+}
+
+/* Style untuk modal RSVP */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-button {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+}
+
+.modal-content h3 {
+    font-family: 'Great Vibes', cursive;
+    color: #d4af37;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #5a3a24;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.modal-content button.btn-gold {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+/* Style untuk alert sukses/gagal RSVP */
+.rsvp-alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: none; /* Hidden by default */
+    font-weight: 600;
+}
+
+.rsvp-alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.rsvp-alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.gift-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #d4af37;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px auto;
+    max-width: 300px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.gift-box h5 {
+    color: #b76e22;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+.gift-box p {
+    font-size: 0.95rem;
+    color: #4b2e1e;
+    word-break: break-all; /* Agar nomor tidak keluar box */
 }

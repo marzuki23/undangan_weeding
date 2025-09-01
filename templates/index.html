@@ -17,7 +17,7 @@
         <div class="cover-overlay"></div>
         <div class="cover-content">
             <h5 class="cover-text">Undangan Pernikahan</h5>
-            <h1 class="cover-title">{{ data.groom }} & {{ data.bride }}</h1>
+            <h1 class="cover-title">{{ data.groom }} <br>&<br> {{ data.bride }}</h1>
             <p class="cover-text to-guest">Kepada Yth. Bapak/Ibu/Saudara/i</p>
             <h2 class="cover-text"><b>{{ nama_tamu }}</b></h2>
             <p class="cover-text mt-3">Tanpa mengurangi rasa hormat, kami mengundang Anda untuk hadir di acara pernikahan kami.</p>
@@ -27,10 +27,12 @@
 
     <audio id="bg-music" autoplay loop>
         <source src="{{ url_for('static', filename='music/gamelan.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
     </audio>
     <button class="music-btn" onclick="toggleMusic()">🎵</button>
 
-    <se id="main-content" style="display: none;">
+    <!-- Main content container -->
+    <div id="main-content" style="display: none;">
         <section class="hero d-flex align-items-center justify-content-center text-center">
             <div class="overlay"></div>
             <div class="content text-white" data-aos="zoom-in">
@@ -100,54 +102,168 @@
             <p>Will you attend our wedding?</p>
 
             <div class="d-flex justify-content-center gap-3">
-                <button class="btn btn-rsvp hadir">Hadir</button>
-                <button class="btn btn-rsvp tidak-hadir">Tidak Hadir</button>
+                <button id="btn-hadir" class="btn btn-rsvp">Hadir</button>
+                <button id="btn-tidak-hadir" class="btn btn-rsvp">Tidak Hadir</button>
             </div>
+            <div id="rsvp-alert" class="rsvp-alert mt-3" role="alert"></div>
         </section>
 
         <section id="gift" class="py-5 text-center" data-aos="fade-up">
             <h2 class="section-title">Wedding Gift</h2>
             <p>Doa & restu Anda merupakan hadiah terbaik. Namun, jika ingin memberikan hadiah secara digital:</p>
 
+            {% for account in data.bank_accounts %}
             <div class="gift-box">
-                <h5>Dana</h5>
-                <p>0888-xxxx-xxxx (Atas Nama: [Nama])</p>
+                <h5>{{ account.type }}</h5>
+                <p>{{ account.number }} (Atas Nama: {{ account.name }})</p>
             </div>
-
-            <div class="gift-box">
-                <h5>ShopeePay</h5>
-                <p>0899-xxxx-xxxx (Atas Nama: [Nama])</p>
-            </div>
-
-            <div class="gift-box">
-                <h5>Bank Jateng</h5>
-                <p>1234567890 (Atas Nama: [Nama])</p>
-            </div>
+            {% endfor %}
         </section>
 
 
         <footer class="text-center py-4 bg-dark text-white small">
             © 2025 {{ data.groom }} & {{ data.bride }}
         </footer>
-    </main>
+    </div> 
+
+    <!-- RSVP Modal -->
+    <div id="rsvp-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h3 id="modal-title">Konfirmasi Kehadiran</h3>
+            <form id="rsvp-form" action="/rsvp" method="POST">
+                <input type="hidden" id="attendance" name="attendance" value="">
+                <label for="guest_name">Nama Lengkap:</label>
+                <input type="text" id="guest_name" name="guest_name" required>
+
+                <label for="num_guests">Jumlah Tamu (termasuk Anda):</label>
+                <input type="number" id="num_guests" name="num_guests" min="1" value="1" required>
+
+                <label for="message">Pesan / Doa Restu:</label>
+                <textarea id="message" name="message" rows="4"></textarea>
+
+                <button type="submit" class="btn btn-gold">Kirim Konfirmasi</button>
+            </form>
+        </div>
+    </div>
+
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000 });
 
         const music = document.getElementById("bg-music");
-        let playing = true;
+        let playing = false; // Set to false initially as music will play on openInvitation
+
         function toggleMusic() {
             if (playing) { music.pause(); } else { music.play(); }
             playing = !playing;
+            // Update button icon if needed
+            const musicBtn = document.querySelector('.music-btn');
+            musicBtn.textContent = playing ? '🔇' : '🎵'; // Optional: change icon
         }
 
-        // Script untuk mengatur tampilan halaman
         function openInvitation() {
             document.getElementById('cover-page').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
             document.body.style.overflow = 'auto'; // Mengaktifkan scroll
-            document.getElementById("bg-music").play(); // Putar musik
+            document.body.classList.add('animated-background'); // Tambahkan kelas background animasi
+            
+            // Auto-play music if it was allowed
+            const playPromise = music.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    playing = true;
+                    const musicBtn = document.querySelector('.music-btn');
+                    musicBtn.textContent = '🔇'; // Show mute icon
+                }).catch(error => {
+                    console.log("Autoplay was prevented.", error);
+                    // Autoplay was prevented. Show play icon
+                    playing = false;
+                    const musicBtn = document.querySelector('.music-btn');
+                    musicBtn.textContent = '🎵'; 
+                });
+            }
+        }
+
+        // RSVP Modal Logic
+        const rsvpModal = document.getElementById('rsvp-modal');
+        const btnHadir = document.getElementById('btn-hadir');
+        const btnTidakHadir = document.getElementById('btn-tidak-hadir');
+        const attendanceInput = document.getElementById('attendance');
+        const modalTitle = document.getElementById('modal-title');
+        const rsvpForm = document.getElementById('rsvp-form');
+        const rsvpAlert = document.getElementById('rsvp-alert');
+
+        btnHadir.onclick = function() {
+            attendanceInput.value = 'hadir';
+            modalTitle.textContent = 'Konfirmasi Kehadiran (Hadir)';
+            rsvpModal.style.display = 'flex';
+            btnHadir.classList.add('active');
+            btnTidakHadir.classList.remove('active');
+        }
+
+        btnTidakHadir.onclick = function() {
+            attendanceInput.value = 'tidak hadir';
+            modalTitle.textContent = 'Konfirmasi Kehadiran (Tidak Hadir)';
+            rsvpModal.style.display = 'flex';
+            btnTidakHadir.classList.add('active');
+            btnHadir.classList.remove('active');
+        }
+
+        function closeModal() {
+            rsvpModal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == rsvpModal) {
+                closeModal();
+            }
+        }
+
+        // Handle form submission
+        rsvpForm.onsubmit = async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(rsvpForm);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch('/rsvp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                rsvpAlert.style.display = 'block';
+                if (result.success) {
+                    rsvpAlert.classList.remove('error');
+                    rsvpAlert.classList.add('success');
+                    rsvpAlert.textContent = result.message;
+                    rsvpForm.reset(); // Clear form
+                    closeModal(); // Close modal on success
+                } else {
+                    rsvpAlert.classList.remove('success');
+                    rsvpAlert.classList.add('error');
+                    rsvpAlert.textContent = result.message;
+                }
+            } catch (error) {
+                console.error('Error submitting RSVP:', error);
+                rsvpAlert.style.display = 'block';
+                rsvpAlert.classList.remove('success');
+                rsvpAlert.classList.add('error');
+                rsvpAlert.textContent = 'Terjadi kesalahan saat mengirim konfirmasi. Silakan coba lagi.';
+            }
+
+            // Hide alert after a few seconds
+            setTimeout(() => {
+                rsvpAlert.style.display = 'none';
+            }, 5000);
         }
     </script>
     <script src="{{ url_for('static', filename='js/countdown.js') }}"></script>
