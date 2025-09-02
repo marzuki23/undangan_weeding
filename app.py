@@ -33,11 +33,11 @@ def index():
         "bride_parents": "Alm. Bapak Muhammad Yahya & Ibu Siti Maesaroh",
         "akad_date": "Ahad, 12 Oktober 2025 • 09.00 WIB",
         "akad_venue": "Masjid Baitul Mustajabah, Kota Tegal",
-        "resepsi_date": "Ahad, 12 Oktober 2025 • 11.00 WIB - selesai",
+        "resepsi_date": "Ahad, 12 Oktober 2025 • 10.00 WIB - selesai",
         "resepsi_venue": "Jl. Brawijaya Rt 04/ Rw 02 Muarareja, Kota Tegal",
         "gallery": ["gambar 1.jpg", "gambar 2.jpg", "gambar 3.jpg"], # Pastikan gambar ini ada di static/img
         "bank_accounts": [
-            {"type": "Bank Jateng", "number": "1234567890", "name": "Fadhilatul Laili"},
+            {"type": "Bank Jateng", "number": "3158030160", "name": "Fadhilatul Laili"},
             {"type": "DANA", "number": "082323939692", "name": "Afiyatussyaadah"},
             {"type": "ShopeePay", "number": "082323939692", "name": "Afiyatussya adah"},
         ]
